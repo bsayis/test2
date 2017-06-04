@@ -2,15 +2,12 @@
 
 
 from django.shortcuts import render
+from collection.models import Thing
 
+# the rewritten view!
 def index(request):
-    # defining the variable
-    number = 6
-    thing = "Thing name"
-    # passing the variable to the view
-    return render(request, 'index.html', {
-        'number': number,
-        # don't forget to pass it in, and the last comma
-        'thing': thing,
-    })
+    things = Thing.objects.all()
 
+    return render(request, 'index.html', {
+        'things': things,
+    })
