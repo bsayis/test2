@@ -2,6 +2,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 from collection import views
+from collection.backends import MyRegistrationView
+
 
 # add to the top
 from django.contrib.auth.views import (
@@ -49,6 +51,11 @@ urlpatterns = [
         name="password_reset_complete"),
     url(r'^accounts/', 
         include('registration.backends.simple.urls')),
+	url(r'^accounts/register/$', 
+	    MyRegistrationView.as_view(),
+	    name='registration_register'),
+	url(r'^accounts/create_thing/$', views.create_thing, 
+	    name='registration_create_thing'),
 
     url(r'^admin/', admin.site.urls),
 ]
