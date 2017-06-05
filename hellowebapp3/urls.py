@@ -13,6 +13,11 @@ from django.contrib.auth.views import (
    password_reset_complete
 )
 
+# added RedirectView to this import statement
+from django.views.generic import (TemplateView, 
+    RedirectView,
+)
+
 
 urlpatterns = [
     url(r'^$', views.index, name='home'),
@@ -23,11 +28,21 @@ urlpatterns = [
     url(r'^contact/$', 
         TemplateView.as_view(template_name='contact.html'),
         name='contact'),
+
+	url(r'^things/$', RedirectView.as_view(pattern_name='browse', permanent=True)),
     url(r'^things/(?P<slug>[-\w]+)/$', views.thing_detail, 
         name='thing_detail'),
     url(r'^things/(?P<slug>[-\w]+)/edit/$', 
         views.edit_thing,
         name='edit_thing'),
+
+	# our new browse flow
+	url(r'^browse/$', RedirectView.as_view(pattern_name='browse', permanent=True)),
+	url(r'^browse/name/$',
+	    views.browse_by_name, name='browse'),
+	url(r'^browse/name/(?P<initial>[-\w]+)/$', 
+	    views.browse_by_name, name='browse_by_name'),
+
     # the new password reset URLs
     url(r'^accounts/password/reset/$', 
         password_reset,
